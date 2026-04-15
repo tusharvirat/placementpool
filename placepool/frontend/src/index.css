@@ -1,0 +1,21 @@
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f8f7ff;color:#1a1a2e;min-height:100vh;-webkit-font-smoothing:antialiased}
+input:focus,select:focus,textarea:focus{border-color:#a78bfa!important;box-shadow:0 0 0 3px rgba(167,139,250,.15)!important;outline:none!important}
+button{transition:all .15s ease}
+button:active{transform:scale(.97)}
+a{text-decoration:none;transition:opacity .15s}
+a:hover{opacity:.85}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#f1f5f9}
+::-webkit-scrollbar-thumb{background:#c4b5fd;border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:#a78bfa}
+::selection{background:#ede9fe;color:#5b21b6}
+.spin{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+/* Smooth page transitions */
+.page-enter{animation:fadeIn .25s ease}
+/* Table hover */
+tr:hover td{background:#faf5ff!important;transition:background .1s}

@@ -1,0 +1,10 @@
+const r=require('express').Router();
+const c=require('../controllers/aptitudeController');
+const {protect,adminOnly}=require('../middleware/auth');
+r.get('/categories',         protect, c.getCategories);
+r.post('/categories',        protect, adminOnly, c.createCategory);
+r.delete('/categories/:id',  protect, adminOnly, c.deleteCategory);
+r.get('/questions',          protect, c.getQuestions);
+r.post('/questions',         protect, adminOnly, c.createQuestion);
+r.delete('/questions/:id',   protect, adminOnly, c.deleteQuestion);
+module.exports=r;

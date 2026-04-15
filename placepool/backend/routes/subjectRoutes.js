@@ -1,0 +1,12 @@
+const r=require('express').Router();
+const c=require('../controllers/subjectController');
+const {protect,adminOnly}=require('../middleware/auth');
+r.get('/',                protect, c.getSubjects);
+r.post('/',               protect, adminOnly, c.createSubject);
+r.put('/:id',             protect, adminOnly, c.updateSubject);
+r.delete('/:id',          protect, adminOnly, c.deleteSubject);
+r.get('/questions',       protect, c.getQuestions);
+r.post('/questions',      protect, adminOnly, c.createQuestion);
+r.put('/questions/:id',   protect, adminOnly, c.updateQuestion);
+r.delete('/questions/:id',protect, adminOnly, c.deleteQuestion);
+module.exports=r;

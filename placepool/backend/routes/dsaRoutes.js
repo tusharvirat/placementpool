@@ -1,0 +1,12 @@
+const r=require('express').Router();
+const c=require('../controllers/dsaController');
+const {protect,adminOnly}=require('../middleware/auth');
+r.get('/topics',          protect, c.getTopics);
+r.post('/topics',         protect, adminOnly, c.createTopic);
+r.put('/topics/:id',      protect, adminOnly, c.updateTopic);
+r.delete('/topics/:id',   protect, adminOnly, c.deleteTopic);
+r.get('/problems',        protect, c.getProblems);
+r.post('/problems',       protect, adminOnly, c.createProblem);
+r.put('/problems/:id',    protect, adminOnly, c.updateProblem);
+r.delete('/problems/:id', protect, adminOnly, c.deleteProblem);
+module.exports=r;
