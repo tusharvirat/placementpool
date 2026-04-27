@@ -13,6 +13,7 @@ import AptitudePage      from './pages/AptitudePage';
 import CompaniesPage     from './pages/CompaniesPage';
 import AdminPage         from './pages/AdminPage';
 import Layout            from './components/shared/Layout';
+console.log('API BASE:', process.env.REACT_APP_API_URL);
 
 function Protected({ children, adminOnly }) {
   const { user, loading } = useAuth();
