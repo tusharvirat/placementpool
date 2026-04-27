@@ -2,25 +2,26 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
   const [form, setForm]       = useState({ email:'', password:'' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
   const set = k => e => setForm({...form,[k]:e.target.value});
 
- const submit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  try {
-    const { data } = await api.post('/auth/login', form);
-    localStorage.setItem('pp_token', data.token);
-    localStorage.setItem('pp_user', JSON.stringify(data.user));
-    toast.success(`Welcome back, ${data.user.name}!`);
-    navigate('/dashboard'); // or wherever your home route is
-  } catch(err) { toast.error(err.response?.data?.message || 'Login failed'); }
-  finally { setLoading(false); }
-};
+  const submit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const { data } = await api.post('/auth/login', form);
+      login(data.token, data.user);
+      toast.success(`Welcome back, ${data.user.name}!`);
+      navigate('/');
+    } catch(err) { toast.error(err.response?.data?.message || 'Login failed'); }
+    finally { setLoading(false); }
+  };
 
   return (
     <AuthWrap>
@@ -29,7 +30,6 @@ export default function LoginPage() {
         <Field label="University Email" type="email" placeholder="you@university.edu" value={form.email} onChange={set('email')} />
         <Field label="Password" type="password" placeholder="Enter your password" value={form.password} onChange={set('password')} />
         <AuthBtn loading={loading}>Sign In →</AuthBtn>
-        {/* P8: forgot password link */}
         <div style={{ textAlign:'center' }}>
           <Link to="/forgot-password" style={{ fontSize:12, color:'#7c3aed', fontWeight:500 }}>Forgot password?</Link>
         </div>
