@@ -1,8 +1,8 @@
 const r=require('express').Router();
 const c=require('../controllers/authController');
 const {protect}=require('../middleware/auth');
-const express = require('express');
-const app = express();
+// const express = require('express');
+// const app = express();
 
 
 // //temp 
