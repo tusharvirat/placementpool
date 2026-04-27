@@ -54,29 +54,16 @@ exports.login = async (req, res) => {
     if (!email || !password)
       return res.status(400).json({ success: false, message: 'Email and password are required' });
 
-    const user = await User.findOne({ email }).select('+password +otp +otpExpiry');
+    const user = await User.findOne({ email }).select('+password');
     if (!user || !(await user.matchPassword(password)))
       return res.status(401).json({ success: false, message: 'Invalid email or password' });
 
     if (!user.isVerified)
       return res.status(401).json({ success: false, message: 'Account not verified. Please sign up first.' });
 
-    const otp = makeOTP();
-    user.otp = otp;
-    user.otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
-    await user.save();
-
-    try {
-      await sendOTPEmail(email, user.name, otp);
-    } catch (emailErr) {
-      console.error('EMAIL SEND FAILED:', emailErr.message);
-      return res.status(500).json({
-        success: false,
-        message: `OTP email failed: ${emailErr.message}. Check EMAIL_PASS in Railway — must be 16-char Gmail App Password, no spaces.`
-      });
-    }
-
-    res.json({ success: true, message: 'OTP sent to your email', email });
+    // ✅ No OTP — just return token directly
+    const token = signToken(user._id);
+    res.json({ success: true, token, user: { id: user._id, name: user.name, email: user.email, role: user.role, rollNo: user.rollNo } });
   } catch (e) {
     console.error('LOGIN ERROR:', e.message);
     res.status(500).json({ success: false, message: e.message });

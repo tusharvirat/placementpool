@@ -26,7 +26,7 @@ exports.sendOTPEmail = async (to, name, otp) => {
     to,
     subject: `${otp} — Your PlacePool OTP`,
     html,
-  });
+});
 
   if (error) throw new Error(`EMAIL SEND FAILED: ${error.message}`);
 };

@@ -32,7 +32,7 @@ export default function SignupPage() {
         </div>
         <Field label="University Email" type="email" placeholder="roll@university.edu" value={form.email} onChange={set('email')} />
         <Field label="Password (min 6 chars)" type="password" placeholder="Create a strong password" value={form.password} onChange={set('password')} />
-        <AuthBtn loading={loading}>Create Account & Send OTP →</AuthBtn>
+        <AuthBtn loading={loading}>Create Account →</AuthBtn>
       </form>
     </AuthWrap>
   );

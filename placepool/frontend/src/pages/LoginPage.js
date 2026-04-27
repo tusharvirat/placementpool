@@ -9,16 +9,18 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const set = k => e => setForm({...form,[k]:e.target.value});
 
-  const submit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await api.post('/auth/login', form);
-      toast.success('OTP sent to your email!');
-      navigate('/verify-otp', { state:{ email:form.email, mode:'login' } });
-    } catch(err) { toast.error(err.response?.data?.message || 'Login failed'); }
-    finally { setLoading(false); }
-  };
+ const submit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  try {
+    const { data } = await api.post('/auth/login', form);
+    localStorage.setItem('pp_token', data.token);
+    localStorage.setItem('pp_user', JSON.stringify(data.user));
+    toast.success(`Welcome back, ${data.user.name}!`);
+    navigate('/dashboard'); // or wherever your home route is
+  } catch(err) { toast.error(err.response?.data?.message || 'Login failed'); }
+  finally { setLoading(false); }
+};
 
   return (
     <AuthWrap>
@@ -26,7 +28,7 @@ export default function LoginPage() {
       <form onSubmit={submit} style={{ display:'flex', flexDirection:'column', gap:14 }}>
         <Field label="University Email" type="email" placeholder="you@university.edu" value={form.email} onChange={set('email')} />
         <Field label="Password" type="password" placeholder="Enter your password" value={form.password} onChange={set('password')} />
-        <AuthBtn loading={loading}>Send OTP to Email →</AuthBtn>
+        <AuthBtn loading={loading}>Sign In →</AuthBtn>
         {/* P8: forgot password link */}
         <div style={{ textAlign:'center' }}>
           <Link to="/forgot-password" style={{ fontSize:12, color:'#7c3aed', fontWeight:500 }}>Forgot password?</Link>
